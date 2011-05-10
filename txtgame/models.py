@@ -31,7 +31,7 @@ class Answer(models.Model):
     subject = models.ForeignKey(User, related_name="answers_about")
     respondant = models.ForeignKey(User, related_name="answers_given")
 
-class TwoOptionAnswers(models.Model):
+class TwoOptionAnswer(models.Model):
     TWO_OPTION_ANSWER_CHOICES = (
         ('A', 'Option A'),
         ('B', 'Option B'),

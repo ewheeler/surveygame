@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+{% load i18n %}
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+	<head>
+		<title>How tight is my crew?:: {% block title %}{% endblock %}</title>
+		{% block stylesheets %}
+		<link type="text/css" rel="stylesheet" href="/assets/css/style.css" />
+		{% endblock %}
+		{% block javascripts %}
+		<script src="/assets/js/jquery-1.4.3.min.js"></script>
+		{% endblock %}
+	</head>
+	<body>
+		<div id="header">
+			<div id="auth">
+			    {% if user.is_authenticated %}
+				<p>Logged in as {{ user.username }}. <a href="{% url logout %}">Logout</a></p>
+			    {% else %}
+				<p>Welcome, please <a href="{% url login %}">log in</a> or <a href="{% url register %}">register</a>.</p>
+			    {% endif %}
+			</div>
+			<ul id=tabs>
+				<li{% ifequal tab "dashboard" %} class="active"{% endifequal %}><a href="/">Dashboard</a></li>
+				<li{% ifequal tab "puzzle" %} class="active"{% endifequal %}><a href="{% url puzzle %}">Puzzle</a></li>
+				<li{% ifequal tab "questions" %} class="active"{% endifequal %}><a href="{% url questions %}">Questions</a></li>
+			</ul>
+		</div>
+		<div id="inner">
+			{% block content %}{% endblock %}
+		</div>
+		<div id="footer">
+		</div>
+	</body>
+</html>

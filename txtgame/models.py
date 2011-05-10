@@ -14,6 +14,12 @@ class UserProfile(models.Model):
 class Crew(models.Model):
     initiator = models.ForeignKey(User)
     members = models.ManyToManyField(User, related_name="members")
+    survey = models.ForeignKey("Survey")
+    current_question = models.ForeignKey("Question")
+
+    @property
+    def get_members(self):
+        return self.members.all()
 
 class Survey(models.Model):
     begin = models.DateTimeField()
@@ -22,8 +28,8 @@ class Question(models.Model):
     survey = models.ForeignKey(Survey)
     sequence = models.PositiveSmallIntegerField()
 
-class TwoOptionQuestion(models.Model):
-    text = models.CharField(max_length=160)
+    text_second_person = models.CharField(max_length=160)
+    text_third_person = models.CharField(max_length=160)
     option_a = models.CharField(max_length=160)
     option_b = models.CharField(max_length=160)
 
@@ -31,14 +37,13 @@ class Answer(models.Model):
     subject = models.ForeignKey(User, related_name="answers_about")
     respondant = models.ForeignKey(User, related_name="answers_given")
 
-class TwoOptionAnswer(models.Model):
     TWO_OPTION_ANSWER_CHOICES = (
         ('A', 'Option A'),
         ('B', 'Option B'),
         ('C', 'IDK'),
     )
     answer = models.CharField(max_length=1, choices=TWO_OPTION_ANSWER_CHOICES)
-    question = models.ForeignKey(TwoOptionQuestion)
+    question = models.ForeignKey(Question)
 
 class ReciprocalAccuracy(models.Model):
     question = models.ForeignKey(Question)

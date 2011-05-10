@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block title %}Questions{% endblock %}
+
+{% block content %}
+<div>
+    <form method="post" action="{% url answers %}">
+    <div id="second_person">
+        {{ question.text_second_person }}?
+        <fieldset>
+        <input type="radio" name="respondant" value="A">{{ question.option_a }}</input>
+        <input type="radio" name="respondant" value="B">{{ question.option_b }}</input>
+        <input type="radio" name="respondant" value="C">I don't know</input>
+        </fieldset>
+    </div>
+
+    <div id="third_person">
+    {% for m in crew_mates %}
+        {{ question.text_third_person}} {{ m.username }}?
+        <fieldset>
+        <input type="radio" name="subject-{{m.pk}}" value="A">{{ question.option_a }}</input>
+        <input type="radio" name="subject-{{m.pk}}" value="B">{{ question.option_b }}</input>
+        <input type="radio" name="subject-{{m.pk}}" value="C">I don't know</input>
+        </fieldset>
+    {% endfor %}
+    </div>
+    {% csrf_token %}
+    <input type="hidden" name="question" value="{{question.pk}}" />
+    <input type="submit" value="submit" />
+    </form>
+</div>
+{% endblock %}

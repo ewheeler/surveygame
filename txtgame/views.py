@@ -25,7 +25,14 @@ def index(req):
             context_instance=RequestContext(req))
 
 def puzzle(req):
-    pass
+    player = Player.objects.get(pk=req.user.pk)
+    crew = player.get_crew
+    number_of_pieces = crew.surveygame_set.all()[0].get_current_question.sequence + 1
+    puzzle_pieces = Puzzle.objects.all()[0].text.splitlines()[:number_of_pieces]
+    return render_to_response("puzzle.html",\
+        {"puzzlepieces":puzzle_pieces,\
+        "tab":"puzzle"},\
+        context_instance=RequestContext(req))
 
 @login_required
 def questions(req):

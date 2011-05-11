@@ -109,3 +109,6 @@ class ReciprocalAccuracy(models.Model):
     subject_accuracy = models.CharField(max_length=100)
     respondant = models.ForeignKey(User, related_name="reciprocal_answers_given")
     respondant_accuracy = models.CharField(max_length=100)
+
+class Puzzle(models.Model):
+    text = models.TextField()

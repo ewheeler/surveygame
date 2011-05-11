@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block title %}Puzzle{% endblock %}
+
+{% block content %}
+    <p>For each question answered by all members of your crew, another piece of the puzzle is revealed!</p>
+        <pre>
+        {% for l in puzzlepieces %}
+            {{l}}
+        {% endfor %}
+        </pre>
+{% endblock %}

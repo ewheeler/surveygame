@@ -3,11 +3,37 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-    {% for c in crews %}
-        <ul>
-        {% for m in c.get_members %}
-            <li>{{ m.username }}</li>
+    {% if game %}
+        game on!
+        {% for m in game.get_players %}
+            <ul>
+                <li>{{m.username}} has answered {{m.get_num_questions_answered}} questions</li>
+            </ul>
         {% endfor %}
-        </ul>
-    {% endfor %}
+    {% else %}
+        <form method="post" action="{% url newgame %}">
+        <fieldset>
+        <label for="initiator-name">Enter YOUR name and phone number</label>
+        <input type="text" name="initiator-name" value="{{user.username}}"/>
+        <input type="text" name="initiator-mobile"/>
+        </fieldset>
+        <fieldset>
+        <label for="crewmate-0-name">Enter friend's name and phone number</label>
+        <input type="text" name="crewmate-0-name"/>
+        <input type="text" name="crewmate-0-mobile"/>
+        </fieldset>
+        <fieldset>
+        <label for="crewmate-1-name">Enter friend's name and phone number</label>
+        <input type="text" name="crewmate-1-name"/>
+        <input type="text" name="crewmate-1-mobile"/>
+        </fieldset>
+        <fieldset>
+        <label for="crewmate-2-name">Enter friend's name and phone number</label>
+        <input type="text" name="crewmate-2-name"/>
+        <input type="text" name="crewmate-2-mobile"/>
+        </fieldset>
+        {% csrf_token %}
+        <input type="submit" value="submit" />
+        </form>
+    {% endif %}
 {% endblock %}

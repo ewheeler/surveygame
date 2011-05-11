@@ -26,4 +26,5 @@ urlpatterns = patterns('',
     url(r'^login/$', 'django.contrib.auth.views.login', {'template_name':'login.html'}, name="login"),
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'template_name':'loggedout.html'}, name="logout"),
     url(r'^answers/$', views.handle_answers, name='answers'),
+    url(r'^newgame/$', views.new_game, name='newgame'),
 )

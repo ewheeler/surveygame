@@ -3,7 +3,7 @@
 {% load i18n %}
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 	<head>
-		<title>How tight is my crew?:: {% block title %}{% endblock %}</title>
+		<title>How tight is my crew? :: {% block title %}{% endblock %}</title>
 		{% block stylesheets %}
 		<link type="text/css" rel="stylesheet" href="/assets/css/style.css" />
 		{% endblock %}
@@ -16,8 +16,6 @@
 			<div id="auth">
 			    {% if user.is_authenticated %}
 				<p>Logged in as {{ user.username }}. <a href="{% url logout %}">Logout</a></p>
-			    {% else %}
-				<p>Welcome, please <a href="{% url login %}">log in</a> or <a href="{% url register %}">register</a>.</p>
 			    {% endif %}
 			</div>
 			<ul id=tabs>

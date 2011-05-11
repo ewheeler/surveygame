@@ -8,6 +8,7 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
+from django.contrib.auth import authenticate, login, logout
 
 from .models import *
 
@@ -17,14 +18,16 @@ def index(req):
         player = Player.objects.get(pk=req.user.pk)
         if player:
             crew = player.get_crew
-            games = crew.surveygame_set.all()
-            if games:
-                game = crew.surveygame_set.all()[0]
+            if crew:
+                games = crew.surveygame_set.all()
+                if games:
+                    game = crew.surveygame_set.all()[0]
     return render_to_response("index.html",\
             {"game":game,\
             "tab": "dashboard"},\
             context_instance=RequestContext(req))
 
+@login_required
 def puzzle(req):
     player = Player.objects.get(pk=req.user.pk)
     crew = player.get_crew
@@ -58,6 +61,7 @@ def questions(req):
                 "tab": "questions"},\
                 context_instance=RequestContext(req))
 
+@login_required
 def handle_answers(req):
     if req.method == "POST":
         player = Player.objects.get(pk=req.user.pk)
@@ -92,7 +96,14 @@ def new_game(req):
                 else:
                     mates[int(raw_list[1])][1] = v
         init, created = User.objects.get_or_create(username=initiator_name)
+        init.set_password('m')
+        init.save()
         init_p, created = UserProfile.objects.get_or_create(user=init, mobile=initiator_mobile)
+
+        if req.user.is_authenticated():
+            logout(req)
+        l_init = authenticate(username=initiator_name, password='m')
+        login(req, l_init)
         
         new_crew, created = Crew.objects.get_or_create(initiator=init)
         new_crew.members.add(init)

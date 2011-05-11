@@ -13,12 +13,13 @@ from .models import *
 
 def index(req):
     game = None
-    player = Player.objects.get(pk=req.user.pk)
-    if player:
-        crew = player.get_crew
-        games = crew.surveygame_set.all()
-        if games:
-            game = crew.surveygame_set.all()[0]
+    if req.user.is_authenticated():
+        player = Player.objects.get(pk=req.user.pk)
+        if player:
+            crew = player.get_crew
+            games = crew.surveygame_set.all()
+            if games:
+                game = crew.surveygame_set.all()[0]
     return render_to_response("index.html",\
             {"game":game,\
             "tab": "dashboard"},\
